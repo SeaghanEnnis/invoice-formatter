@@ -1,0 +1,1 @@
+This formatter changes a oddly formatted receipt as a .docx into a more legible one.

@@ -14,10 +14,21 @@ def main():
 
     #setup outDoc
     outDoc = docx.Document()
-    
-    for i in inDoc.paragraphs:
-        print(i.text)
-    
+    style = outDoc.styles['Normal']
+    font = style.font
+    font.name = 'Times New Roman'
+    font.size = docx.shared.Pt(12)
+    paragraph_format = outDoc.styles['Normal'].paragraph_format
+    paragraph_format.space_before = docx.shared.Pt(0)
+    paragraph_format.space_after = docx.shared.Pt(0)
+    paragraph_format.line_spacing = 1
+
+    #Read inDoc to produce outDoc
+    for p in inDoc.paragraphs:
+        print(p.text)
+        outDoc.add_paragraph(p.text)
+
+    outDoc.save("exampleOutput.docx")
 
 
 if __name__ == '__main__':
