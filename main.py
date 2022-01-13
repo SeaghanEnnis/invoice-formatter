@@ -10,10 +10,14 @@ def main():
     #opens the document and snapshots it
     inputFile = "example.docx"
     print("Opening: ", inputFile)
-    doc = docx.Document(inputFile)
+    inDoc = docx.Document(inputFile)
+
+    #setup outDoc
+    outDoc = docx.Document()
     
-    for i in doc.paragraphs:
+    for i in inDoc.paragraphs:
         print(i.text)
+    
 
 
 if __name__ == '__main__':
