@@ -25,11 +25,19 @@ def main():
 
     #Read inDoc to produce outDoc
     for p in inDoc.paragraphs:
-        print(p.text)
+
+        # Remove space
+        for char in p.text:
+            if char == " ":
+                p.text = p.text[1:]
+            else:
+                break
+
         outDoc.add_paragraph(p.text)
 
     outDoc.save("exampleOutput.docx")
 
+    print("Finished and saved")
 
 if __name__ == '__main__':
     #start script
