@@ -2,6 +2,7 @@
 #Last Update: Jan 13, 2022
 
 import docx
+import re
 
 def main():
     #enter script
@@ -23,6 +24,9 @@ def main():
     paragraph_format.space_after = docx.shared.Pt(0)
     paragraph_format.line_spacing = 1
 
+    #to calculate the total
+    total = 0.0
+
     #Read inDoc to produce outDoc
     for p in inDoc.paragraphs:
 
@@ -32,8 +36,29 @@ def main():
                 p.text = p.text[1:]
             else:
                 break
+        #find subtotals and add them to total
+        if "Subtotal" in p.text:
+            findSub = re.sub("[^0-9]", "", p.text)
+            findSub = float(findSub)
+            findSub = findSub * 0.01
+            print("Found subtotal! Adding", findSub, "to full total")
+            total = total + findSub
 
+        #add all formated paragraphs to outDoc
         outDoc.add_paragraph(p.text)
+
+    #Calculate totals
+    discount = round(total * 0.15, 2)
+    discountedTotal = total - discount
+
+    #Add final information to doc
+    outDoc.add_page_break()
+    para = outDoc.add_paragraph("Total:\t\t\t\t\t")
+    para.add_run('$' + str(total))
+    para = outDoc.add_paragraph("15% Discount:\t\t\t\t")
+    para.add_run('$(' + str(discount) + ')').underline = True
+    para = outDoc.add_paragraph('')
+    para.add_run("TOTAL:\t\t\t\t$" + str(discountedTotal)).bold = True
 
     outDoc.save("exampleOutput.docx")
 
